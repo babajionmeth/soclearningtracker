@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOC Tracker — Dashboard</title>
+  <meta name="description" content="SOC Analyst Training Dashboard — track phases, tasks, streaks, and compare with friends">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <div class="container">
+    <!-- HEADER -->
+    <div class="dash-header">
+      <div class="dash-user">
+        <div class="avatar" id="user-avatar">?</div>
+        <div class="dash-user-info">
+          <div class="username" id="user-name">OPERATIVE</div>
+          <div class="status">● SYSTEM ONLINE</div>
+        </div>
+      </div>
+      <div class="dash-title">
+        <h1>SOC TRACKER</h1>
+      </div>
+      <button class="btn btn-orange btn-logout" onclick="logout()">LOGOUT ✕</button>
+    </div>
+
+    <!-- STREAK CARD -->
+    <div class="streak-card" id="streak-card">
+      <div class="streak-info">
+        <div class="streak-main">
+          <div class="big-num" id="current-streak">0</div>
+          <div class="big-label">Day Streak</div>
+        </div>
+        <div class="streak-stats">
+          <div class="streak-stat">
+            <span class="label">Longest</span>
+            <span class="value" id="longest-streak">0</span>
+          </div>
+          <div class="streak-stat">
+            <span class="label">Total Check-ins</span>
+            <span class="value" id="total-checkins">0</span>
+          </div>
+          <div class="streak-badges" id="streak-badges">
+            <span class="streak-badge" data-days="7" title="7-day streak (Bronze)">🥉</span>
+            <span class="streak-badge" data-days="30" title="30-day streak (Silver)">🥈</span>
+            <span class="streak-badge" data-days="100" title="100-day streak (Gold)">🥇</span>
+          </div>
+        </div>
+      </div>
+      <div class="streak-actions">
+        <button class="btn btn-orange btn-checkin" id="btn-checkin" onclick="doCheckin()">
+          🔥 CHECK IN TODAY
+        </button>
+        <div class="checkin-status" id="checkin-status"></div>
+      </div>
+    </div>
+
+    <!-- OVERALL PROGRESS -->
+    <div class="overall-progress">
+      <div class="overall-header">
+        <span class="label">Mission Progress</span>
+        <span>
+          <span class="pct" id="overall-pct">0%</span>
+          <span class="count" id="overall-count">(0/0 tasks)</span>
+        </span>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="overall-bar" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <!-- PHASE CARDS -->
+    <div id="phases-container">
+      <div class="loading">LOADING ROADMAP</div>
+    </div>
+
+    <!-- LEADERBOARD -->
+    <div class="section-divider">⚔ LEADERBOARD</div>
+    <div class="leaderboard-card">
+      <table class="leaderboard-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Operative</th>
+            <th>Tasks</th>
+            <th>Streak</th>
+            <th class="hide-mobile">Phase</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-body">
+          <tr><td colspan="5" class="loading">LOADING</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/js/streaks.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

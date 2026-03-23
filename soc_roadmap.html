@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOC Analyst Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050a0f;
+    --bg2: #080f16;
+    --bg3: #0d1a24;
+    --panel: #0a1520;
+    --border: #1a3a50;
+    --green: #00ff88;
+    --cyan: #00d4ff;
+    --blue: #0088ff;
+    --orange: #ff6b35;
+    --yellow: #ffd700;
+    --red: #ff3366;
+    --purple: #a855f7;
+    --text: #c8e6f0;
+    --muted: #4a7a96;
+    --glow-green: 0 0 20px rgba(0,255,136,0.4);
+    --glow-cyan: 0 0 20px rgba(0,212,255,0.4);
+    --glow-orange: 0 0 20px rgba(255,107,53,0.4);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Scanline overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* Grid background */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+      linear-gradient(rgba(0,136,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,136,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
+
+  /* HEADER */
+  header {
+    text-align: center;
+    padding: 40px 0 30px;
+    position: relative;
+  }
+
+  .header-badge {
+    display: inline-block;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--green);
+    border: 1px solid var(--green);
+    padding: 4px 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    animation: pulse-border 2s infinite;
+  }
+
+  @keyframes pulse-border {
+    0%, 100% { box-shadow: 0 0 5px rgba(0,255,136,0.3); }
+    50% { box-shadow: 0 0 15px rgba(0,255,136,0.6); }
+  }
+
+  h1 {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 900;
+    line-height: 1.1;
+    background: linear-gradient(135deg, var(--cyan) 0%, var(--green) 50%, var(--blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    letter-spacing: 2px;
+  }
+
+  .subtitle {
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 10px;
+    letter-spacing: 2px;
+  }
+
+  .subtitle span { color: var(--cyan); }
+
+  /* STATS BAR */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 24px 0;
+  }
+
+  .stat-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 14px 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .stat-card.green::before { background: var(--green); box-shadow: var(--glow-green); }
+  .stat-card.cyan::before { background: var(--cyan); box-shadow: var(--glow-cyan); }
+  .stat-card.orange::before { background: var(--orange); box-shadow: var(--glow-orange); }
+  .stat-card.purple::before { background: var(--purple); }
+
+  .stat-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .stat-value {
+    font-family: 'Orbitron', monospace;
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .green .stat-value { color: var(--green); }
+  .cyan .stat-value { color: var(--cyan); }
+  .orange .stat-value { color: var(--orange); }
+  .purple .stat-value { color: var(--purple); }
+
+  .stat-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 2px;
+    margin: 28px 0 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tab {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: var(--muted);
+    border: 1px solid transparent;
+    border-bottom: none;
+    transition: all 0.2s;
+    background: transparent;
+  }
+
+  .tab:hover { color: var(--cyan); }
+  .tab.active {
+    color: var(--cyan);
+    background: var(--panel);
+    border-color: var(--border);
+    border-bottom-color: var(--panel);
+    margin-bottom: -1px;
+  }
+
+  .tab-content { display: none; padding-top: 24px; }
+  .tab-content.active { display: block; }
+
+  /* PHASE CARDS */
+  .phase-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .phase-card:hover { border-color: var(--cyan); }
+
+  .phase-card.current { border-color: var(--green); }
+  .phase-card.current::after {
+    content: '▶ CURRENT';
+    position: absolute;
+    top: 16px; right: 16px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--green);
+    letter-spacing: 2px;
+    animation: blink 1.5s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .phase-header {
+    padding: 18px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    user-select: none;
+  }
+
+  .phase-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 28px;
+    font-weight: 900;
+    min-width: 50px;
+    line-height: 1;
+  }
+  .p0 .phase-num { color: var(--green); text-shadow: var(--glow-green); }
+  .p1 .phase-num { color: var(--cyan); text-shadow: var(--glow-cyan); }
+  .p2 .phase-num { color: var(--blue); }
+  .p3 .phase-num { color: var(--orange); text-shadow: var(--glow-orange); }
+  .p4 .phase-num { color: var(--yellow); }
+  .p5 .phase-num { color: var(--purple); }
+  .p6 .phase-num { color: var(--red); }
+
+  .phase-meta { flex: 1; }
+
+  .phase-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .phase-tagline { color: var(--muted); font-size: 13px; }
+
+  .phase-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+
+  .tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border: 1px solid;
+    letter-spacing: 1px;
+  }
+  .tag.weeks { color: var(--cyan); border-color: rgba(0,212,255,0.3); }
+  .tag.level { color: var(--green); border-color: rgba(0,255,136,0.3); }
+  .tag.priority { color: var(--orange); border-color: rgba(255,107,53,0.3); }
+
+  .phase-toggle {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 18px;
+    color: var(--muted);
+    transition: transform 0.3s, color 0.2s;
+  }
+
+  .phase-card.open .phase-toggle {
+    transform: rotate(90deg);
+    color: var(--cyan);
+  }
+
+  .phase-body {
+    display: none;
+    padding: 0 20px 20px;
+    border-top: 1px solid var(--border);
+  }
+  .phase-card.open .phase-body { display: block; }
+
+  /* Sections inside phase */
+  .section-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  @media (max-width: 700px) { .section-grid { grid-template-columns: 1fr; } .stats-bar { grid-template-columns: 1fr 1fr; } }
+
+  .section-box {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 14px 16px;
+  }
+
+  .section-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-title .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .dot-green { background: var(--green); box-shadow: var(--glow-green); }
+  .dot-cyan { background: var(--cyan); }
+  .dot-orange { background: var(--orange); }
+  .dot-yellow { background: var(--yellow); }
+  .dot-purple { background: var(--purple); }
+  .dot-red { background: var(--red); }
+
+  ul.checklist { list-style: none; }
+  ul.checklist li {
+    padding: 5px 0;
+    font-size: 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    line-height: 1.4;
+  }
+  ul.checklist li:last-child { border-bottom: none; }
+  ul.checklist li::before {
+    content: '›';
+    color: var(--cyan);
+    font-weight: bold;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  ul.checklist li.thm-room::before { content: '🎯'; font-size: 12px; }
+  ul.checklist li.gemini::before { content: '⚡'; font-size: 12px; }
+  ul.checklist li.warning::before { content: '⚠'; color: var(--orange); }
+
+  .room-badge {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    background: rgba(0,212,255,0.1);
+    color: var(--cyan);
+    border: 1px solid rgba(0,212,255,0.2);
+    padding: 1px 6px;
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+
+  .full-width { grid-column: 1 / -1; }
+
+  .concept-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .concept {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    background: rgba(0,136,255,0.08);
+    border: 1px solid rgba(0,136,255,0.2);
+    color: var(--blue);
+    padding: 4px 10px;
+    letter-spacing: 1px;
+  }
+
+  /* DAILY SCHEDULE */
+  .schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 0;
+  }
+
+  @media (max-width: 700px) { .schedule-grid { grid-template-columns: 1fr; } }
+
+  .time-block {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .time-block::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+  }
+  .time-block.morning::before { background: var(--yellow); }
+  .time-block.afternoon::before { background: var(--orange); }
+  .time-block.evening::before { background: var(--cyan); }
+  .time-block.night::before { background: var(--purple); }
+  .time-block.weekend::before { background: var(--green); }
+
+  .time-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .morning .time-label { color: var(--yellow); }
+  .afternoon .time-label { color: var(--orange); }
+  .evening .time-label { color: var(--cyan); }
+  .night .time-label { color: var(--purple); }
+  .weekend .time-label { color: var(--green); }
+
+  .time-duration {
+    font-family: 'Orbitron', monospace;
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 4px;
+  }
+
+  .time-activity { color: var(--text); font-size: 14px; margin-bottom: 8px; }
+  .time-detail { color: var(--muted); font-size: 12px; line-height: 1.5; }
+
+  /* GEMINI CLI section */
+  .cli-card {
+    background: var(--panel);
+    border: 1px solid rgba(255,107,53,0.3);
+    padding: 18px;
+    margin-bottom: 14px;
+    position: relative;
+  }
+
+  .cli-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--orange), transparent);
+  }
+
+  .cli-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    color: var(--orange);
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .cli-use { color: var(--muted); font-size: 13px; margin-bottom: 12px; }
+
+  .code-block {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 12px 16px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--green);
+    overflow-x: auto;
+    line-height: 1.8;
+    margin-bottom: 8px;
+  }
+
+  .code-block .prompt { color: var(--cyan); }
+  .code-block .comment { color: var(--muted); }
+
+  /* Progress tracker */
+  .progress-section { margin-bottom: 24px; }
+
+  .progress-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    margin-bottom: 8px;
+  }
+
+  .progress-label { flex: 1; font-size: 14px; }
+  .progress-sublabel { font-size: 11px; color: var(--muted); font-family: 'Share Tech Mono', monospace; }
+
+  .progress-bar-wrap {
+    width: 160px;
+    height: 6px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  .progress-bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%; right: -100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmer 2s infinite;
+  }
+  @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+  .progress-pct {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    min-width: 36px;
+    text-align: right;
+  }
+
+  /* ALERT BOX */
+  .alert {
+    padding: 14px 18px;
+    margin: 16px 0;
+    border-left: 3px solid;
+    background: var(--bg3);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .alert.info { border-color: var(--cyan); color: var(--text); }
+  .alert.warn { border-color: var(--orange); color: var(--text); }
+  .alert.success { border-color: var(--green); color: var(--text); }
+
+  .alert strong { font-weight: 700; }
+  .alert.info strong { color: var(--cyan); }
+  .alert.warn strong { color: var(--orange); }
+  .alert.success strong { color: var(--green); }
+
+  /* PROJECTS TAB */
+  .project-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 20px;
+    margin-bottom: 14px;
+    position: relative;
+    transition: border-color 0.3s;
+  }
+  .project-card:hover { border-color: var(--purple); }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--purple), var(--cyan));
+  }
+
+  .project-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+  }
+
+  .project-desc { color: var(--muted); font-size: 13px; margin-bottom: 14px; line-height: 1.6; }
+
+  .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tech-pill {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    padding: 3px 10px;
+    border: 1px solid rgba(168,85,247,0.3);
+    color: var(--purple);
+    background: rgba(168,85,247,0.08);
+    letter-spacing: 1px;
+  }
+
+  .project-phase-tag {
+    position: absolute;
+    top: 18px; right: 18px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 30px 0 20px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+
+  footer span { color: var(--green); }
+
+  /* Section header */
+  .section-header {
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 24px 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  /* Skill tree */
+  .skill-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .skill-name { flex: 1; font-size: 14px; }
+  .skill-dots { display: flex; gap: 4px; }
+  .skill-dot {
+    width: 12px; height: 12px;
+    border: 1px solid var(--border);
+    background: transparent;
+  }
+  .skill-dot.filled { background: var(--cyan); border-color: var(--cyan); box-shadow: 0 0 6px rgba(0,212,255,0.5); }
+  .skill-dot.partial { background: rgba(0,212,255,0.3); border-color: var(--cyan); }
+
+  /* Flicker animation */
+  @keyframes flicker {
+    0%, 95%, 100% { opacity: 1; }
+    96% { opacity: 0.8; }
+    97% { opacity: 1; }
+    98% { opacity: 0.6; }
+    99% { opacity: 1; }
+  }
+  h1 { animation: flicker 8s infinite; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-badge">// CLASSIFIED TRAINING PROTOCOL //</div>
+    <h1>SOC ANALYST<br>ZERO TO HIRED</h1>
+    <p class="subtitle">OPERATIVE: <span>RAHUL</span> &nbsp;|&nbsp; STATUS: <span>2ND SEM → SOC L1 FRESHER</span> &nbsp;|&nbsp; THM: <span>SOC PATH ACTIVE</span></p>
+  </header>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stat-card green">
+      <div class="stat-label">Current Phase</div>
+      <div class="stat-value">P-00</div>
+      <div class="stat-sub">Networking Deep Dive</div>
+    </div>
+    <div class="stat-card cyan">
+      <div class="stat-label">Total Duration</div>
+      <div class="stat-value">~6mo</div>
+      <div class="stat-sub">Job-ready timeline</div>
+    </div>
+    <div class="stat-card orange">
+      <div class="stat-label">Daily Commitment</div>
+      <div class="stat-value">2hr</div>
+      <div class="stat-sub">Structured + hands-on</div>
+    </div>
+    <div class="stat-card purple">
+      <div class="stat-label">GitHub Projects</div>
+      <div class="stat-value">5+</div>
+      <div class="stat-sub">Portfolio targets</div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('roadmap')">ROADMAP</div>
+    <div class="tab" onclick="showTab('daily')">DAILY PLAN</div>
+    <div class="tab" onclick="showTab('gemini')">GEMINI CLI</div>
+    <div class="tab" onclick="showTab('projects')">PROJECTS</div>
+    <div class="tab" onclick="showTab('skills')">SKILL MAP</div>
+  </div>
+
+  <!-- TAB: ROADMAP -->
+  <div id="tab-roadmap" class="tab-content active">
+
+    <div class="alert success">
+      <strong>YOU ARE HERE →</strong> Phase 0 — Networking. You're on THM SOC L1 in the Networking room right now. Perfect timing. This phase is your longest — don't rush it. Everything else in SOC is built on top of what you learn here.
+    </div>
+
+    <!-- PHASE 0 -->
+    <div class="phase-card p0 current open">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-num">00</div>
+        <div class="phase-meta">
+          <div class="phase-title">NETWORKING — THE DEEP END</div>
+          <div class="phase-tagline">Not just "how packets work" — learn to read the internet like a book</div>
+          <div class="phase-tags">
+            <span class="tag weeks">WEEKS 1–3</span>
+            <span class="tag level">FOUNDATION</span>
+            <span class="tag priority">⚡ CRITICAL</span>
+          </div>
+        </div>
+        <div class="phase-toggle">›</div>
+      </div>
+      <div class="phase-body">
+        <div class="alert info">
+          <strong>Why this matters for SOC:</strong> 90% of alerts you'll investigate are network-based. If you can't read a packet capture, reconstruct a TCP stream, or spot a DNS tunnel — you're blind. This isn't "networking basics." This is network forensics training.
+        </div>
+
+        <div class="section-grid">
+          <div class="section-box">
+            <div class="section-title"><span class="dot dot-cyan"></span> WHAT TO MASTER</div>
+            <ul class="checklist">
+              <li>OSI model — not memorization, but WHY each layer exists</li>
+              <li>TCP/IP — 3-way handshake, flags (SYN, ACK, RST, FIN), sequence numbers</li>
+              <li>DNS — full query lifecycle, record types (A, AAAA, MX, TXT, CNAME), DNS over HTTPS</li>
+              <li>HTTP/HTTPS — methods, status codes, headers, cookies, TLS handshake</li>
+              <li>ARP — how it works and why it's abused (ARP spoofing)</li>
+              <li>DHCP — IP assignment lifecycle, DHCP starvation attacks</li>
+              <li>ICMP — ping, traceroute, how attackers use it for tunneling</li>
+              <li>Subnetting — CIDR notation, calculate ranges manually, understand /24 vs /16</li>
+              <li>Ports — top 100 ports by memory. Know what runs on 443, 445, 3389, 22, 80, 25, 53</li>
+              <li>Wireshark — filter syntax, follow TCP stream, reconstruct sessions, export objects</li>
+            </ul>
+          </div>
+          <div class="section-box">
+            <div class="section-title"><span class="dot dot-green"></span> THM ROOMS (DO THESE)</div>
+            <ul class="checklist">
+              <li class="thm-room">Networking Fundamentals <span class="room-badge">CURRENT</span></li>
+              <li class="thm-room">Intro to LAN</li>
+              <li class="thm-room">OSI Model</li>
+              <li class="thm-room">Packets & Frames</li>
+              <li class="thm-room">Extending the Network</li>
+              <li class="thm-room">DNS in Detail</li>
+              <li class="thm-room">HTTP in Detail</li>
+              <li class="thm-room">How Websites Work</li>
+              <li class="thm-room">Wireshark: The Basics</li>
+              <li class="thm-room">Wireshark: Packet Operations</li>
+              <li class="thm-room">Tcpdump: The Basics</li>
+              <li class="thm-room">What is Networking? (Pre-Security)</li>
+            </ul>
+          </div>
+          <div class="section-box full-width">
+            <div class="section-title"><span class="dot dot-orange"></span> HANDS-ON MISSIONS</div>
+            <ul class="checklist">
+              <li>Install Wireshark on your machine. Capture your own browser traffic. Find your DNS requests. Find the TLS handshake. Find the 3-way TCP handshake.</li>
+              <li>Use <code>tcpdump -i any port 80</code> while browsing HTTP sites. Try to read the raw HTTP request in the terminal.</li>
+              <li>Run <code>nmap -sV localhost</code> and understand every field in the output.</li>
+              <li>Do a DNS lookup with <code>dig</code> for any website. Trace the full resolution chain using <code>dig +trace google.com</code></li>
+              <li>Use <code>traceroute</code> or <code>tracepath</code> — understand every hop. What is each node?</li>
+              <li>Set up a home lab: 2 VMs on your M1 (Kali + Ubuntu). Capture traffic between them.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="concept-strip" style="margin-top:14px;">
+          <span class="concept">TCP/IP</span><span class="concept">OSI LAYERS</span><span class="concept">DNS</span><span class="concept">TLS/SSL</span><span class="concept">ARP</span><span class="concept">ICMP</span><span class="concept">SUBNETTING</span><span class="concept">WIRESHARK</span><span class="concept">TCPDUMP</span><span class="concept">NMAP</span><span class="concept">DHCP</span><span class="concept">HTTP HEADERS</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 1 -->
+    <div class="phase-card p1">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-num">01</div>
+        <div class="phase-meta">
+          <div class="phase-title">LINUX FOR SOC</div>
+          <div class="phase-tagline">From "I use Linux" to "I live inside Linux"</div>
+          <div class="phase-tags">
+            <span class="tag weeks">WEEK 4</span>
+            <span class="tag level">INTERMEDIATE</span>
+          </div>
+        </div>
+        <div class="phase-toggle">›</div>
+      </div>
+      <div class="phase-body">
+        <div class="alert info"><strong>You already have the basics.</strong> This phase upgrades you to SOC-grade Linux — log navigation, text parsing, process investigation, and bash scripting for automation. SOC analysts spend half their day in the terminal.</div>
+        <div class="section-grid">
+          <div class="section-box">
+            <div class="section-title"><span class="dot dot-cyan"></span> KEY SKILLS</div>
+            <ul class="checklist">
+              <li>Log files: <code>/var/log/auth.log</code>, <code>syslog</code>, <code>kern.log</code>, <code>apache2/access.log</code></li>
+              <li><code>grep</code>, <code>awk</code>, <code>sed</code>, <code>cut</code> — parse logs like a surgeon</li>
+              <li><code>find</code> + <code>xargs</code> — hunt files by time, size, permissions</li>
+              <li><code>ps aux</code>, <code>netstat</code>, <code>ss</code>, <code>lsof</code> — investigate running processes</li>
+              <li>Bash scripting — write a basic log parser script</li>
+              <li><code>cron</code> — schedule automated tasks (key for detection scripts)</li>
+              <li>File permissions, SUID bits, sticky bits — understand attack surface</li>
+            </ul>
+          </div>
+          <div class="section-box">
+            <div class="section-title"><span class="dot dot-green"></span> THM ROOMS</div>
+            <ul class="checklist">
+              <li class="thm-room">Linux Fundamentals Part 3</li>
+              <li class="thm-room">Linux Strength Training</li>
+              <li class="thm-room">Bash Scripting</li>
+              <li class="thm-room">Regular Expressions</li>
+            </ul>
+            <div class="section-title" style="margin-top:14px;"><span class="dot dot-orange"></span> MISSION</div>
+            <ul class="checklist">
+              <li>Write a bash script that reads <code>auth.log</code> and outputs every failed SSH login with timestamp and source IP</li>
+              <li>Write a script that alerts you if a new user is added to <code>/etc/passwd</code></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="phase-card p2">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-num">02</div>
+        <div class="phase-meta">
+          <div class="phase-title">SECURITY FUNDAMENTALS + ATTACK FRAMEWORKS</div>
+          <div class="phase-tagline">Learn how attackers think — so you can stop them</div>
+          <div class="phase-tags">
+            <span class="tag weeks">WEEKS 5–6</span>
+            <span class="tag level">INTERMEDIATE</span>
+          </div>
+        </div>
+        <div class="phase-toggle">›</div>
+      </div>
+      <div class="phase-body">
+        <div class="alert info"><strong>MITRE ATT&CK is your bible.</strong> Every detection rule, every alert, every SOC playbook maps back to it. Learn it now — not later.</div>
+        <div class="section-grid">
+          <div class="section-box">
+            <div class="section-title"><span class="dot dot-cyan"></span> CONCEPTS</div>
+            <ul class="checklist">
+              <li>CIA Triad — Confidentiality, Integrity, Availability (and how attacks target each)</li>
+              <li>Cyber Kill Chain — 7 stages, how defenders use it</li>
+              <li>MITRE ATT&CK Framework — Tactics, Techniques, Procedures (TTPs)</li>
+              <li>Diamond Model of Intrusion Analysis</li>
+              <li>Attack types: Phishing, BruteForce, SQLi, XSS, MITM, DDoS — SOC perspective</li>
+              <li>Indicators of Compromise (IOCs) vs Indicators of Attack (IOAs)</li>
+              <li>Threat Intelligence basics — feeds, STIX/TAXII</li>
+            </ul>
+          </div>
+          <div class="section-box">
+            <div class="section-title"><span class="dot dot-green"></span> THM ROOMS</div>
+            <ul class="checklist">
+              <li class="thm-room">Intro to Cybersecurity</li>
+              <li class="thm-room">Cyber Kill Chain</li>
+              <li class="thm-room">MITRE (ATT&CK, D3FEND, Engage)</li>
+              <li class="thm-room">Diamond Model</li>
+              <li class="thm-room">Pyramid of Pain</li>
+              <li class="thm-room">Unified Kill Chain</li>
+              <li class="thm-room">Threat Intelligence Tools</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="phase-card p3">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-num">03</div>
+        <div class="phase-meta">
+          <div class="phase-title">SIEM — LOG ANALYSIS & DETECTION</div>
+          <div class="phase-tagline">Wazuh deep dive + Splunk + ELK. This is your core SOC weapon.</div>
+          <div class="phase-tags">
+            <span class="tag weeks">WEEKS 7–10</span>
+            <span class="tag level">CORE SOC SKILL</span>
+            <span class="tag priority">⚡ CRITICAL</span>
+          </div>
+        </div>
+        <div class="phase-toggle">›</div>
+      </div>
+      <div class="phase-body">
+        <div class="alert warn"><strong>You've touched Wazuh before.</strong> This time, go deeper — understand rules, decoders, active response, and how to write your own detection rules. Recruiters ask about SIEM experience constantly.</div>
+        <div class="section-grid">
+          <div class="section-box">
+            <div class="section-title"><span class="dot dot-orange"></span> WAZUH (YOUR ADVANTAGE)</div>
+            <ul class="checklist">
+              <li>Architecture: Manager, Agent, Filebeat, Elasticsearch</li>
+              <li>Rules & Decoders — understand rule IDs, levels, groups</li>
+              <li>Write custom rules for specific events (e.g., detect when /etc/passwd is modified)</li>
+              <li>Active Response — configure automatic blocking on alerts</li>
+              <li>Vulnerability detection module</li>
+              <li>FIM (File Integrity Monitoring) — set up monitored paths</li>
+              <li>Add your Linux VM as an agent — generate real alerts</li>
+              <li>Dashboards — build a custom detection dashboard</li>
+            </ul>
+          </div>
+          <div class="section-box">
+            <div class="section-title"><span class="dot dot-cyan"></span> SPLUNK + ELK</div>
+            <ul class="checklist">
+              <li>SPL (Search Processing Language) — basic to intermediate queries</li>
+              <li>index, sourcetype, stats, eval, rex, table commands</li>
+              <li>Create dashboards and alerts in Splunk</li>
+              <li>ELK Stack — Kibana queries, KQL syntax</li>
+              <li>Ingest sample log datasets (BOTS dataset)</li>
+            </ul>
+            <div class="section-title" style="margin-top:14px;"><span class="dot dot-green"></span> THM ROOMS</div>
+            <ul class="checklist">
+              <li class="thm-room">Investigating with ELK 101</li>
+              <li class="thm-room">ItsyBitsy (ELK investigation)</li>
+              <li class="thm-room">Splunk: Basics</li>
+              <li class="thm-room">Splunk 2 (Incident Investigation)</li>
+              <li class="thm-room">Splunk 3 (Advanced)</li>
+              <li class="thm-room">Wazuh (SOC L1 path)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="phase-card p4">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-num">04</div>
+        <div class="phase-meta">
+          <div class="phase-title">NETWORK INTRUSION DETECTION — SNORT, SURICATA, ZEEK</div>
+          <div class="phase-tagline">Write rules that catch real attackers</div>
+          <div class="phase-tags">
+            <span class="tag weeks">WEEKS 11–13</span>
+            <span class="tag level">ADVANCED</span>
+          </div>
+        </div>
+        <div class="phase-toggle">›</div>
+      </div>
+      <div class="phase-body">
+        <div class="section-grid">
+          <div class="section-box">
+            <div class="section-title"><span class="dot dot-yellow"></span> TOOLS</div>
+            <ul class="checklist">
+              <li>Snort — rule syntax, write rules for specific attack signatures</li>
+              <li>Suricata — modern IDS/IPS, YAML config, EVE JSON logs</li>
+              <li>Zeek — behavioral analysis, conn.log, dns.log, http.log, SSL log</li>
+              <li>NetworkMiner — passive network forensics</li>
+              <li>PCAP analysis — analyze real attack PCAPs from malware-traffic-analysis.net</li>
+            </ul>
+          </div>
+          <div class="section-box">
+            <div class="section-title"><span class="dot dot-green"></span> THM ROOMS</div>
+            <ul class="checklist">
+              <li class="thm-room">Snort</li>
+              <li class="thm-room">Snort Challenge — Live Attacks</li>
+              <li class="thm-room">NetworkMiner</li>
+              <li class="thm-room">Zeek</li>
+              <li class="thm-room">Zeek Exercises</li>
+              <li class="thm-room">Brim (Zed Lake)</li>
+              <li class="thm-room">Traffic Analysis Essentials</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 5 -->
+    <div class="phase-card p5">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-num">05</div>
+        <div class="phase-meta">
+          <div class="phase-title">INCIDENT RESPONSE + DIGITAL FORENSICS</div>
+          <div class="phase-tagline">Investigate breaches like a detective</div>
+          <div class="phase-tags">
+            <span class="tag weeks">WEEKS 14–17</span>
+            <span class="tag level">ADVANCED</span>
+          </div>
+        </div>
+        <div class="phase-toggle">›</div>
+      </div>
+      <div class="phase-body">
+        <div class="section-grid">
+          <div class="section-box">
+            <div class="section-title"><span class="dot dot-purple"></span> KEY SKILLS</div>
+            <ul class="checklist">
+              <li>IR Lifecycle: Preparation, Detection, Containment, Eradication, Recovery, Lessons Learned</li>
+              <li>Phishing email analysis — headers, links, attachments, sandbox detonation</li>
+              <li>Malware analysis basics — static (strings, file type, hashes) vs dynamic</li>
+              <li>Windows event logs — Event IDs 4624, 4625, 4672, 4688, 4698, 4720</li>
+              <li>Memory forensics — Volatility basics</li>
+              <li>Disk forensics — Autopsy, timeline analysis</li>
+              <li>Write IR Playbooks for common scenarios</li>
+            </ul>
+          </div>
+          <div class="section-box">
+            <div class="section-title"><span class="dot dot-green"></span> THM ROOMS</div>
+            <ul class="checklist">
+              <li class="thm-room">Incident Response Process</li>
+              <li class="thm-room">Phishing Emails (1, 2, 3, 4, 5)</li>
+              <li class="thm-room">Phishing Analysis Tools</li>
+              <li class="thm-room">Windows Event Logs</li>
+              <li class="thm-room">Investigating Windows</li>
+              <li class="thm-room">Autopsy</li>
+              <li class="thm-room">Redline</li>
+              <li class="thm-room">Volatility</li>
+              <li class="thm-room">KAPE</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 6 -->
+    <div class="phase-card p6">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-num">06</div>
+        <div class="phase-meta">
+          <div class="phase-title">JOB PREP + CERTIFICATIONS</div>
+          <div class="phase-tagline">Polish your profile. Walk into interviews ready.</div>
+          <div class="phase-tags">
+            <span class="tag weeks">WEEKS 18–24</span>
+            <span class="tag level">DEPLOYMENT</span>
+          </div>
+        </div>
+        <div class="phase-toggle">›</div>
+      </div>
+      <div class="phase-body">
+        <div class="section-grid">
+          <div class="section-box">
+            <div class="section-title"><span class="dot dot-red"></span> CERTIFICATIONS (FRESHER PRIORITY)</div>
+            <ul class="checklist">
+              <li>CompTIA Security+ — industry-recognized, fresher-friendly, most requested by employers</li>
+              <li>Google Cybersecurity Certificate (Coursera) — free/cheap, covers SOC basics, good for resume</li>
+              <li>THM SOC Level 1 Certificate — complete the full path, screenshot it for LinkedIn</li>
+              <li>Splunk Core Certified User — free exam vouchers sometimes available</li>
+              <li class="warning">Skip CEH for now — overpriced for freshers, low practical value vs cost</li>
+            </ul>
+          </div>
+          <div class="section-box">
+            <div class="section-title"><span class="dot dot-cyan"></span> INTERVIEW PREP</div>
+            <ul class="checklist">
+              <li>Know the SOC Tier 1 analyst job description by heart</li>
+              <li>Practice explaining a simulated incident investigation walkthrough</li>
+              <li>Be able to explain your Wazuh setup in detail (you already have this!)</li>
+              <li>Common questions: "Walk me through a phishing investigation", "What's the first thing you do when an alert fires?"</li>
+              <li>Be able to read and explain a Wireshark capture live</li>
+              <li>Know MITRE ATT&CK T-codes for common attacks</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB: DAILY PLAN -->
+  <div id="tab-daily" class="tab-content">
+    <div class="alert success">
+      <strong>Your current week focus:</strong> Phase 0 — Networking Deep Dive. Stick to this schedule. 2 hours/day is enough to move fast without burning out.
+    </div>
+
+    <div class="section-header">WEEKDAY SCHEDULE</div>
+    <div class="schedule-grid">
+      <div class="time-block morning">
+        <div class="time-label">⚡ Morning Block</div>
+        <div class="time-duration">30–45 MIN</div>
+        <div class="time-activity">TryHackMe Room Theory</div>
+        <div class="time-detail">Do 1 THM room or continue the current one. Read carefully. Take notes in a markdown file or Notion. Don't skip the reading — rooms are gold.</div>
+      </div>
+      <div class="time-block afternoon">
+        <div class="time-label">🔧 Afternoon / After College</div>
+        <div class="time-duration">60–75 MIN</div>
+        <div class="time-activity">Hands-On Lab Practice</div>
+        <div class="time-detail">Replicate what you just learned. Capture packets, run commands, break things in your VM. No passive learning — active building only.</div>
+      </div>
+      <div class="time-block evening">
+        <div class="time-label">📖 Evening Block</div>
+        <div class="time-duration">20–30 MIN</div>
+        <div class="time-activity">Deep Dive One Concept</div>
+        <div class="time-detail">Pick one thing from today (e.g., "DNS poisoning") and read one article or watch one short video about how it's actually exploited in the real world.</div>
+      </div>
+      <div class="time-block night">
+        <div class="time-label">📝 Night Wind-Down</div>
+        <div class="time-duration">15 MIN</div>
+        <div class="time-activity">Document + Gemini Quiz</div>
+        <div class="time-detail">Write 3-5 bullet points of what you learned. Then ask Gemini CLI to quiz you on today's topic with 5 questions. Grade yourself honestly.</div>
+      </div>
+    </div>
+
+    <div class="section-header">WEEKEND PROTOCOL</div>
+    <div class="schedule-grid">
+      <div class="time-block weekend">
+        <div class="time-label">🗓️ Saturday</div>
+        <div class="time-duration">2–3 HRS</div>
+        <div class="time-activity">Lab Day — Build Something</div>
+        <div class="time-detail">Set up a new tool, build a mini project, or run through a CTF challenge related to your current phase. This is your "get your hands dirty" session. No room theory today — pure execution.</div>
+      </div>
+      <div class="time-block weekend">
+        <div class="time-label">🗓️ Sunday</div>
+        <div class="time-duration">1–1.5 HRS</div>
+        <div class="time-activity">Review + Plan Next Week</div>
+        <div class="time-detail">Review the week's notes. Re-do any concept you're fuzzy on. Write down which rooms you'll hit next week. Update your GitHub notes repo with the week's learnings.</div>
+      </div>
+    </div>
+
+    <div class="section-header">PHASE 0 WEEK-BY-WEEK</div>
+
+    <div class="phase-card p0" style="cursor:default;">
+      <div class="phase-header" style="cursor:default; padding-bottom:0;">
+        <div style="font-family:'Orbitron',monospace;font-size:13px;color:var(--cyan);letter-spacing:2px;">WEEK 1 — TCP/IP + DNS + Wireshark Setup</div>
+      </div>
+      <div class="phase-body" style="display:block;">
+        <ul class="checklist">
+          <li>THM: What is Networking? → Intro to LAN → OSI Model → Packets & Frames</li>
+          <li>Install Wireshark. Capture your browser traffic. Find your own DNS query. Find the TCP handshake.</li>
+          <li>Learn to use <code>dig</code>, <code>nslookup</code>, <code>host</code> commands for DNS inspection</li>
+          <li>Gemini CLI: "Quiz me on TCP flags and what each one signals in an attack context"</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase-card p0" style="cursor:default;">
+      <div class="phase-header" style="cursor:default; padding-bottom:0;">
+        <div style="font-family:'Orbitron',monospace;font-size:13px;color:var(--cyan);letter-spacing:2px;">WEEK 2 — HTTP, TLS, ARP, Subnetting</div>
+      </div>
+      <div class="phase-body" style="display:block;">
+        <ul class="checklist">
+          <li>THM: DNS in Detail → HTTP in Detail → Extending the Network</li>
+          <li>Intercept your own HTTP traffic with Wireshark. Inspect headers, cookies, response codes.</li>
+          <li>Use <code>arp -n</code> and understand what you see. Run arpspoof in your home lab (Kali → Ubuntu).</li>
+          <li>Practice subnetting with subnettingpractice.com until it's instinct</li>
+          <li>Gemini CLI: "Give me 10 subnetting questions with /24, /22, /27 and check my answers"</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase-card p0" style="cursor:default;">
+      <div class="phase-header" style="cursor:default; padding-bottom:0;">
+        <div style="font-family:'Orbitron',monospace;font-size:13px;color:var(--cyan);letter-spacing:2px;">WEEK 3 — Wireshark Deep Dive + Attack PCAPs</div>
+      </div>
+      <div class="phase-body" style="display:block;">
+        <ul class="checklist">
+          <li>THM: Wireshark: The Basics → Wireshark: Packet Operations → Wireshark: Traffic Analysis</li>
+          <li>Download a real attack PCAP from malware-traffic-analysis.net. Open it. What happened?</li>
+          <li>Practice Wireshark filters: <code>tcp.flags.syn==1</code>, <code>dns</code>, <code>http.request</code>, <code>ip.addr==x.x.x.x</code></li>
+          <li>Learn to extract files from a PCAP (File → Export Objects → HTTP)</li>
+          <li>THM: Tcpdump Basics</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: GEMINI CLI -->
+  <div id="tab-gemini" class="tab-content">
+
+    <div class="alert success">
+      <strong>Gemini CLI Pro is a serious advantage.</strong> It has a massive context window — you can paste entire log files, PCAPs in text form, entire man pages, and ask it to analyze them. Here's exactly how to use it at each phase of your training.
+    </div>
+
+    <div class="section-header">PHASE 0 — NETWORKING</div>
+
+    <div class="cli-card">
+      <div class="cli-title">⚡ DAILY QUIZ BOT</div>
+      <div class="cli-use">End of every day — test yourself on what you just learned. Gemini will ask questions, you answer, it grades you.</div>
+      <div class="code-block">
+        <span class="comment"># Paste this into Gemini CLI</span><br>
+        I am learning networking for a SOC analyst role. Today I studied [TOPIC]. <br>
+        Give me 7 questions of increasing difficulty covering [TOPIC]. <br>
+        Ask one at a time. Wait for my answer. Then tell me if I'm right, <br>
+        explain what I got wrong, and move to the next question. <br>
+        At the end, give me a score and tell me what I need to review.
+      </div>
+    </div>
+
+    <div class="cli-card">
+      <div class="cli-title">⚡ PCAP ANALYST (Phase 0 + 4)</div>
+      <div class="cli-use">Export packet data from Wireshark as text. Feed it to Gemini for analysis — it can read thousands of lines of packet data at once.</div>
+      <div class="code-block">
+        <span class="comment"># In Wireshark: File → Export Packet Dissections → as Plain Text</span><br>
+        <span class="comment"># Then in Gemini CLI:</span><br>
+        I have this network capture from my home lab. [PASTE TEXT]<br>
+        Act as a SOC analyst. Identify any suspicious patterns. <br>
+        Map any findings to MITRE ATT&CK techniques. <br>
+        Explain your reasoning step by step.
+      </div>
+    </div>
+
+    <div class="section-header">PHASE 1 — LINUX</div>
+
+    <div class="cli-card">
+      <div class="cli-title">⚡ LOG ANALYSIS TRAINING</div>
+      <div class="cli-use">Paste real or synthetic log files. Ask Gemini to teach you how to parse them and what to look for.</div>
+      <div class="code-block">
+        Here is my auth.log file: [PASTE LOG CONTENT]<br>
+        Act as a senior SOC analyst.<br>
+        1. Identify any suspicious entries and explain why they are suspicious<br>
+        2. Show me the exact grep/awk commands to extract just the IOCs<br>
+        3. Tell me what MITRE ATT&CK technique this maps to<br>
+        4. What would your next investigative step be?
+      </div>
+    </div>
+
+    <div class="cli-card">
+      <div class="cli-title">⚡ BASH SCRIPT GENERATOR + TEACHER</div>
+      <div class="cli-use">Don't just ask it to write scripts — ask it to explain every line so you actually learn.</div>
+      <div class="code-block">
+        Write me a bash script that monitors /etc/passwd for any new user additions <br>
+        and sends an alert to a log file with timestamp.<br>
+        After the script, explain every single line in plain English.<br>
+        Then give me 3 ways I could improve or extend this script for a real SOC.
+      </div>
+    </div>
+
+    <div class="section-header">PHASE 3 — SIEM</div>
+
+    <div class="cli-card">
+      <div class="cli-title">⚡ SYNTHETIC LOG GENERATOR</div>
+      <div class="cli-use">Gemini can generate realistic fake log data for you to practice detection with — including attack scenarios.</div>
+      <div class="code-block">
+        Generate 50 lines of realistic syslog data for a Linux server <br>
+        that contains a hidden brute force SSH attack scenario.<br>
+        Use realistic timestamps, usernames, IPs.<br>
+        After generating, tell me exactly which lines represent the attack <br>
+        and what SPL/KQL query I would use to detect it in a SIEM.
+      </div>
+    </div>
+
+    <div class="cli-card">
+      <div class="cli-title">⚡ WAZUH RULE WORKSHOP</div>
+      <div class="cli-use">Feed Gemini your existing Wazuh rules or ask it to generate new ones for specific detections.</div>
+      <div class="code-block">
+        I am using Wazuh SIEM. Write me a custom rule that detects<br>
+        when the command 'sudo su' is run by any non-root user.<br>
+        Include: rule ID, level, description, group tags, and a test log line<br>
+        that would trigger it. Map it to a MITRE ATT&CK technique.
+      </div>
+    </div>
+
+    <div class="section-header">PHASE 5 — INCIDENT RESPONSE</div>
+
+    <div class="cli-card">
+      <div class="cli-title">⚡ IR PLAYBOOK BUILDER</div>
+      <div class="cli-use">Use Gemini to help you build professional IR playbooks — these become your GitHub portfolio pieces.</div>
+      <div class="code-block">
+        Create a detailed Incident Response playbook for a Phishing Email incident.<br>
+        Format it as a markdown document with these sections:<br>
+        1. Detection triggers (what alerts fire)<br>
+        2. Triage steps (what to check first)<br>
+        3. Containment actions<br>
+        4. Evidence collection checklist<br>
+        5. Eradication steps<br>
+        6. Post-incident report template<br>
+        Make it SOC Tier 1 analyst level — practical, not theoretical.
+      </div>
+    </div>
+
+    <div class="cli-card">
+      <div class="cli-title">⚡ INTERVIEW SIMULATOR</div>
+      <div class="cli-use">Before any interview, run this. Gemini will simulate a real SOC analyst technical interview.</div>
+      <div class="code-block">
+        You are a Senior SOC analyst interviewing me for a Tier 1 SOC analyst role.<br>
+        I am a fresher with: Linux skills, Wazuh experience, THM SOC L1 in progress,<br>
+        Wireshark/Tcpdump, networking fundamentals, MITRE ATT&CK knowledge.<br>
+        Conduct a 20-minute mock technical interview. Ask real questions.<br>
+        When I answer, tell me what's good, what's wrong, and what a strong<br>
+        answer would have included. Be tough but constructive.
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: PROJECTS -->
+  <div id="tab-projects" class="tab-content">
+
+    <div class="alert info">
+      <strong>Start building from Phase 3 onwards.</strong> Each project below maps to a phase. Document everything on GitHub — include setup steps, screenshots, what you found, what you learned. Recruiters LOVE detailed writeups over just code.
+    </div>
+
+    <div class="project-card">
+      <div class="project-phase-tag">PHASE 0–1</div>
+      <div class="project-title">HOME LAB NETWORK MONITOR</div>
+      <div class="project-desc">Set up a 2-VM home lab (Kali + Ubuntu). Deploy Zeek or tcpdump to capture all traffic between VMs. Write a Python/Bash script that parses the logs and flags suspicious connections. Document the entire setup with screenshots and architecture diagram. This shows you can build a mini SOC environment from scratch.</div>
+      <div class="tech-stack">
+        <span class="tech-pill">Zeek/tcpdump</span>
+        <span class="tech-pill">Bash/Python</span>
+        <span class="tech-pill">Ubuntu/Kali VM</span>
+        <span class="tech-pill">Log Parsing</span>
+        <span class="tech-pill">Markdown Writeup</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-phase-tag">PHASE 3</div>
+      <div class="project-title">WAZUH SIEM DEPLOYMENT GUIDE</div>
+      <div class="project-desc">Write a complete, production-quality guide for deploying Wazuh from scratch — manager setup, agent enrollment (Linux + AWS), custom rule writing, active response configuration, and dashboard setup. Include the AWS integration you already did. This is your most unique project as a fresher — most freshers don't have real SIEM experience.</div>
+      <div class="tech-stack">
+        <span class="tech-pill">Wazuh</span>
+        <span class="tech-pill">AWS EC2</span>
+        <span class="tech-pill">Custom Rules</span>
+        <span class="tech-pill">Active Response</span>
+        <span class="tech-pill">FIM</span>
+        <span class="tech-pill">Dashboard</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-phase-tag">PHASE 3–4</div>
+      <div class="project-title">THREAT DETECTION LAB — 10 ATTACK SCENARIOS</div>
+      <div class="project-desc">Simulate 10 common attacks in your home lab (SSH brute force, DNS exfiltration, port scan, reverse shell, etc.). For each one: trigger the attack, capture the traffic/logs, write the detection rule in Wazuh/Snort, verify the alert fires. Document each scenario as a GitHub writeup. This is a portfolio goldmine.</div>
+      <div class="tech-stack">
+        <span class="tech-pill">Wazuh</span>
+        <span class="tech-pill">Snort/Suricata</span>
+        <span class="tech-pill">Kali Linux</span>
+        <span class="tech-pill">MITRE Mapping</span>
+        <span class="tech-pill">Detection Rules</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-phase-tag">PHASE 5</div>
+      <div class="project-title">SOC INCIDENT RESPONSE PLAYBOOK COLLECTION</div>
+      <div class="project-desc">Write professional IR playbooks for 5 common incident types: Phishing Email, Ransomware Alert, Unauthorized SSH Login, Malware Detection, DDoS. Format them as structured markdown docs with detection triggers, triage steps, evidence collection checklists, and report templates. A GitHub repo full of real playbooks screams "this person is ready to work."</div>
+      <div class="tech-stack">
+        <span class="tech-pill">IR Framework</span>
+        <span class="tech-pill">Markdown</span>
+        <span class="tech-pill">NIST Framework</span>
+        <span class="tech-pill">Playbook Design</span>
+        <span class="tech-pill">Documentation</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-phase-tag">PHASE 4–5</div>
+      <div class="project-title">CTF WRITEUP SERIES (THM CHALLENGES)</div>
+      <div class="project-desc">As you complete hard THM rooms and CTF challenges, write detailed public writeups on GitHub (or a free blog). Explain your thought process, tools used, commands run, and what you learned. 10+ writeups shows consistent learning, communication skills, and technical depth — three things SOC interviews test for.</div>
+      <div class="tech-stack">
+        <span class="tech-pill">TryHackMe</span>
+        <span class="tech-pill">CTF Analysis</span>
+        <span class="tech-pill">Technical Writing</span>
+        <span class="tech-pill">GitHub Pages</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: SKILL MAP -->
+  <div id="tab-skills" class="tab-content">
+
+    <div class="alert info"><strong>This is your current skill snapshot.</strong> Update this mentally as you progress. Green = solid. Partial = learning. Empty = upcoming.</div>
+
+    <div class="section-grid">
+      <div class="section-box">
+        <div class="section-title"><span class="dot dot-cyan"></span> NETWORKING</div>
+        <div class="skill-row"><span class="skill-name">Linux Navigation</span><div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot partial"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-row"><span class="skill-name">TCP/IP Fundamentals</span><div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot partial"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-row"><span class="skill-name">DNS / HTTP / TLS</span><div class="skill-dots"><div class="skill-dot partial"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-row"><span class="skill-name">Wireshark / Pcap</span><div class="skill-dots"><div class="skill-dot partial"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-row"><span class="skill-name">Firewall / Routing</span><div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot partial"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-row"><span class="skill-name">Subnetting</span><div class="skill-dots"><div class="skill-dot partial"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+      </div>
+      <div class="section-box">
+        <div class="section-title"><span class="dot dot-orange"></span> SOC TOOLS</div>
+        <div class="skill-row"><span class="skill-name">Wazuh SIEM</span><div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot partial"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-row"><span class="skill-name">Splunk</span><div class="skill-dots"><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-row"><span class="skill-name">ELK Stack</span><div class="skill-dots"><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-row"><span class="skill-name">Snort / Suricata</span><div class="skill-dots"><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-row"><span class="skill-name">Zeek</span><div class="skill-dots"><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-row"><span class="skill-name">Volatility (Memory)</span><div class="skill-dots"><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+      </div>
+      <div class="section-box">
+        <div class="section-title"><span class="dot dot-green"></span> SECURITY CONCEPTS</div>
+        <div class="skill-row"><span class="skill-name">MITRE ATT&CK</span><div class="skill-dots"><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-row"><span class="skill-name">Cyber Kill Chain</span><div class="skill-dots"><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-row"><span class="skill-name">Phishing Analysis</span><div class="skill-dots"><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-row"><span class="skill-name">Incident Response</span><div class="skill-dots"><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-row"><span class="skill-name">Threat Intelligence</span><div class="skill-dots"><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-row"><span class="skill-name">Log Analysis</span><div class="skill-dots"><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+      </div>
+      <div class="section-box">
+        <div class="section-title"><span class="dot dot-purple"></span> DEVELOPMENT</div>
+        <div class="skill-row"><span class="skill-name">Bash Scripting</span><div class="skill-dots"><div class="skill-dot partial"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-row"><span class="skill-name">Python for SOC</span><div class="skill-dots"><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-row"><span class="skill-name">Detection Rule Writing</span><div class="skill-dots"><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-row"><span class="skill-name">Cloud (AWS) Basics</span><div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot partial"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-row"><span class="skill-name">GitHub / Documentation</span><div class="skill-dots"><div class="skill-dot partial"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+        <div class="skill-row"><span class="skill-name">Report Writing</span><div class="skill-dots"><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div><div class="skill-dot"></div></div></div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:1px;">
+      ■ = solid &nbsp;&nbsp; ◨ = learning &nbsp;&nbsp; □ = upcoming &nbsp;&nbsp; (5 dots = expert level for SOC fresher)
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  OPERATIONAL SINCE: 2ND SEM &nbsp;|&nbsp; TARGET: <span>SOC ANALYST L1 FRESHER</span> &nbsp;|&nbsp; PATH: TryHackMe SOC → GitHub → HIRED
+</footer>
+
+</div>
+
+<script>
+  function showTab(name) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function togglePhase(header) {
+    const card = header.closest('.phase-card');
+    card.classList.toggle('open');
+  }
+
+  // Open current phase by default (already done via HTML class + CSS)
+  // Auto-open phase 0 on load
+  window.addEventListener('load', () => {
+    const p0 = document.querySelector('.phase-card.p0.current');
+    if (p0 && !p0.classList.contains('open')) p0.classList.add('open');
+  });
+</script>
+</body>
+</html>
